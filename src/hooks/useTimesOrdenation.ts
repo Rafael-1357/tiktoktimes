@@ -17,7 +17,7 @@ function useTimesOrdenation() {
         listaPontuacoes.forEach(({ nome }, index) => {
             const indiceTimeAtual = copiaListaTimes.findIndex((time) => time.nome === nome);
             const timeAtual = copiaListaTimes[indiceTimeAtual];
-            copiaListaTimes[indiceTimeAtual] = { ...timeAtual, posicao: index };
+            copiaListaTimes[indiceTimeAtual] = { ...timeAtual, posicao: index + 1 };
         });
 
         setListaTimes(copiaListaTimes);

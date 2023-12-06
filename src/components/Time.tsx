@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import TimesTheme from "../themes/TimesTheme";
 import { TimesThemeType } from "../themes/TimesTheme";
 
+import Torcedor from "./Torcedor";
+import formatarPontos from "../utils/formatarPontos";
+
 const FloatingDiv = styled.div<{ posicao: number }>`
     position: absolute;
     top: ${({posicao}) => posicao === 1 ? 0 : (posicao - 1) * 57}px;
@@ -56,11 +59,22 @@ const TorcedoresContainer = styled.div<{nomeTime: keyof TimesThemeType}>`
     bottom: 0;
 `;
 
-function Time(props: TimeType) {
-    let totalPontos: string;
+const InfosTime = styled.h2`
+    color: white;
+    font-size: .8em;
+    font-weight: 800;
+    text-align: center;
+`;
 
-    if (props.totalPontos < 1000) totalPontos = String(props.totalPontos);
-    else totalPontos = ((props.totalPontos / 1000).toFixed(1)).replace('.0', '') + 'K';
+const RelativeDiv = styled.div`
+    position: relative;
+    left: 50px;
+    width: 250px;
+    height: 35px;
+`;
+
+function Time(props: TimeType) {
+    const totalPontos = formatarPontos(props.totalPontos);
 
     return (
         <FloatingDiv posicao={props.posicao}>
@@ -70,6 +84,10 @@ function Time(props: TimeType) {
                     <Pontos>{totalPontos}</Pontos>
                 </Brasao>
                 <TorcedoresContainer nomeTime={props.nome as keyof TimesThemeType}>
+                    <InfosTime>{`${props.nome} - ${props.torcedores.length} Torcedores`}</InfosTime>
+                    <RelativeDiv>
+                        {props.torcedores.map((torcedor) => <Torcedor {...torcedor} />)}
+                    </RelativeDiv>
                 </TorcedoresContainer>
             </CardTime>
         </FloatingDiv>
