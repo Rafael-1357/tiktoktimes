@@ -1,4 +1,4 @@
-import useTimesOrdenation from './hooks/useTimesOrdenation';
+import useTimes from './hooks/useTimes';
 
 import styled from "styled-components";
 
@@ -21,7 +21,7 @@ const RelativeDiv = styled.div`
 `;
 
 function App() {
-  const listaTimes = useTimesOrdenation();
+  const listaTimes = useTimes();
 
   return (
     <>
