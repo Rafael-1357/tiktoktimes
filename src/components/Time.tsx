@@ -86,7 +86,7 @@ function Time(props: TimeType) {
                 <TorcedoresContainer nomeTime={props.nome as keyof TimesThemeType}>
                     <InfosTime>{`${props.nome} - ${props.torcedores.length} Torcedores`}</InfosTime>
                     <RelativeDiv>
-                        {props.torcedores.map((torcedor) => <Torcedor {...torcedor} />)}
+                        {props.torcedores.map((torcedor, key) => <Torcedor {...torcedor} key={key} />)}
                     </RelativeDiv>
                 </TorcedoresContainer>
             </CardTime>

@@ -15,165 +15,66 @@ export type TimeType = {
 const mockDadosTimes: TimeType[] = [
     {
         nome: 'Flamengo',
-        totalPontos: 12e3,
+        totalPontos: 0,
         imagemTimeUrl: 'flamengo.jpg',
-        torcedores: [
-            {
-                imagemTorcedorUrl: '',
-                pontos: 7e3,
-                posicao: 1,
-            },
-            {
-                imagemTorcedorUrl: '',
-                pontos: 5e3,
-                posicao: 2
-            },
-        ],
-        posicao: 6,
+        torcedores: [],
+        posicao: 1,
     },
     {
         nome: 'Fluminense',
-        totalPontos: 12e3,
+        totalPontos: 0,
         imagemTimeUrl: 'fluminense.jpg',
-        torcedores: [
-            {
-                imagemTorcedorUrl: '',
-                pontos: 7e3,
-                posicao: 1,
-            },
-            {
-                imagemTorcedorUrl: '',
-                pontos: 5e3,
-                posicao: 2
-            },
-        ],
+        torcedores: [],
         posicao: 2,
     },
     {
         nome: 'Palmeiras',
-        totalPontos: 12e3,
+        totalPontos: 0,
         imagemTimeUrl: 'palmeiras.jpg',
-        torcedores: [
-            {
-                imagemTorcedorUrl: '',
-                pontos: 7e3,
-                posicao: 1,
-            },
-            {
-                imagemTorcedorUrl: '',
-                pontos: 5e3,
-                posicao: 2
-            },
-        ],
+        torcedores: [],
         posicao: 3,
     },
     {
         nome: 'São Paulo',
-        totalPontos: 12e3,
+        totalPontos: 0,
         imagemTimeUrl: 'saopaulo.jpg',
-        torcedores: [
-            {
-                imagemTorcedorUrl: '',
-                pontos: 7e3,
-                posicao: 1,
-            },
-            {
-                imagemTorcedorUrl: '',
-                pontos: 5e3,
-                posicao: 2
-            },
-        ],
+        torcedores: [],
         posicao: 4,
     },
     {
         nome: 'Botafogo',
-        totalPontos: 12e3,
+        totalPontos: 0,
         imagemTimeUrl: 'botafogo.png',
-        torcedores: [
-            {
-                imagemTorcedorUrl: '',
-                pontos: 7e3,
-                posicao: 1,
-            },
-            {
-                imagemTorcedorUrl: '',
-                pontos: 5e3,
-                posicao: 2
-            },
-        ],
+        torcedores: [],
         posicao: 5,
     },
     {
         nome: 'Internacional',
-        totalPontos: 100,
+        totalPontos: 0,
         imagemTimeUrl: 'internacional.png',
-        torcedores: [
-            {
-                imagemTorcedorUrl: '',
-                pontos: 60,
-                posicao: 1,
-            },
-            {
-                imagemTorcedorUrl: '',
-                pontos: 40,
-                posicao: 2
-            },
-        ],
-        posicao: 1,
+        torcedores: [],
+        posicao: 6,
     },
     {
         nome: 'Vasco',
-        totalPontos: 12e3,
+        totalPontos: 0,
         imagemTimeUrl: 'vasco.png',
-        torcedores: [
-            {
-                imagemTorcedorUrl: '',
-                pontos: 7e3,
-                posicao: 1,
-            },
-            {
-                imagemTorcedorUrl: '',
-                pontos: 5e3,
-                posicao: 2
-            },
-        ],
+        torcedores: [],
         posicao: 7,
     },
     {
         nome: 'Santos',
-        totalPontos: 12e3,
+        totalPontos: 0,
         imagemTimeUrl: 'santos.png',
-        torcedores: [
-            {
-                imagemTorcedorUrl: '',
-                pontos: 7e3,
-                posicao: 1,
-            },
-            {
-                imagemTorcedorUrl: '',
-                pontos: 5e3,
-                posicao: 2
-            },
-        ],
-        posicao: 9,
+        torcedores: [],
+        posicao: 8,
     },
     {
         nome: 'Corinthians',
-        totalPontos: 12e3,
+        totalPontos: 0,
         imagemTimeUrl: 'corinthians.png',
-        torcedores: [
-            {
-                imagemTorcedorUrl: '',
-                pontos: 7e3,
-                posicao: 1,
-            },
-            {
-                imagemTorcedorUrl: '',
-                pontos: 5e3,
-                posicao: 2
-            },
-        ],
-        posicao: 8,
+        torcedores: [],
+        posicao: 9,
     },
 ]
 

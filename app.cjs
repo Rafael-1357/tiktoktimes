@@ -1,6 +1,7 @@
 const app = require('express')()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server, { cors: { origin: 'http://localhost:5173' } })
+const { WebcastPushConnection } = require('tiktok-live-connector');
 
 const times = [
 	{
@@ -68,30 +69,54 @@ const times = [
     },
 ];
 
+const ordenarTimes = () => {
+    const subListaOrdenada = times.map(({ nome, totalPontos }) => ({ nome, totalPontos })).sort((timeA, timeB) => timeB.totalPontos - timeA.totalPontos);
+    subListaOrdenada.forEach(({ nome }, index) => {
+        const indiceTime = times.findIndex(({ nome: nomeTime }) => nomeTime === nome);
+        times[indiceTime].posicao = index + 1;
+    });
+};
+
+const ordenarTorcedores = (indiceTime) => {
+    const listaTorcedores = times[indiceTime].torcedores;
+    const subListaOrdenada = listaTorcedores.map(({ uniqueId, pontos }) => ({ uniqueId, pontos })).sort((torcedorA, torcedorB) => torcedorB.pontos - torcedorA.pontos);
+    subListaOrdenada.forEach(({uniqueId}, index) => {
+        const indiceTorcedor = listaTorcedores.findIndex(({ uniqueId: torcedorID }) => torcedorID === uniqueId);
+        times[indiceTime].torcedores[indiceTorcedor].posicao = index + 1;
+    });
+};
+
+const atualizarPontosTime = (indiceTime) => {
+    times[indiceTime].totalPontos = times[indiceTime].torcedores.reduce((totalPontos, { pontos }) => totalPontos + pontos, 0);
+    ordenarTimes();
+};
+
+const incrementarPontosTorcedor = (nomeTime, uniqueId, quantidadePontos) => {
+    const indiceTimeDoTorcedor = times.findIndex(time => time.nome === nomeTime);
+    const indiceTorcedor = times[indiceTimeDoTorcedor].torcedores.findIndex(torcedor => torcedor.uniqueId === uniqueId);
+    times[indiceTimeDoTorcedor].torcedores[indiceTorcedor].pontos += quantidadePontos;
+    ordenarTorcedores(indiceTimeDoTorcedor);
+    atualizarPontosTime(indiceTimeDoTorcedor);
+};
+
+const cadastrarTorcedor = (nomeTime, uniqueId, fotoUrl) => {
+    const indiceTimeComentado = times.findIndex((time) => time.nome === nomeTime);
+    times[indiceTimeComentado].torcedores.push({
+        uniqueId, pontos: 0, imagemTorcedorUrl: fotoUrl, posicao: times[indiceTimeComentado].torcedores.length + 1,
+    });
+};
+
 io.on('connection', function (socket) {
-	console.log('Usuário conectado')
+	console.log('Usuário conectado');
+	socket.on('disconnect', () => console.log('Usuário desconectou'));
 
-	socket.on('disconnect', function () {
-		console.log('Usuário desconectou')
-	})
-
-	const { WebcastPushConnection } = require('tiktok-live-connector');
-
-	// Username of someone who is currently live
-	let tiktokUsername = 'caverinhajplay';
-
-	// Create a new wrapper object and pass the username
+	let tiktokUsername = 'guilhermewilgner';
 	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
 
-	// Connect to the chat (await can be used as well)
-	tiktokLiveConnection.connect().then(state => {
-		console.info(`Connected to roomId ${state.roomId}`);
-	}).catch(err => {
-		console.error('Failed to connect', err);
-	})
+	tiktokLiveConnection.connect()
+        .then(state => console.info(`Connected to roomId ${state.roomId}`))
+        .catch(err => console.error('Failed to connect', err));
 
-	// Define the events that you want to handle
-	// In this case we listen to chat messages (comments)
 	tiktokLiveConnection.on('chat', ({ uniqueId, comment, profilePictureUrl }) => {
 		const timesAliasMap = {
 			'flamengo': 'Flamengo',
@@ -107,24 +132,21 @@ io.on('connection', function (socket) {
 		};
 
 		const torcedorEstaCadastrado = () => {
-            console.log(uniqueId);
 			const timeComentado = times.find((time) => time.nome === timesAliasMap[comment]);
             for (const torcedor of timeComentado.torcedores) if (torcedor.uniqueId === uniqueId) return true;
             return false;
 		};
 
 		const comentario = comment.toLowerCase();
+
 		if (Object.keys(timesAliasMap).includes(comentario) && !torcedorEstaCadastrado()) {
-			const indiceTimeComentado = times.findIndex((time) => time.nome === timesAliasMap[comentario]);
-			times[indiceTimeComentado].torcedores.push({
-				uniqueId,
-				imagemTorcedorUrl: profilePictureUrl,
-				pontos: 0,
-				posicao: times[indiceTimeComentado].torcedores.length,
-			});
+			cadastrarTorcedor(timesAliasMap[comentario], uniqueId, profilePictureUrl);
 			socket.emit('enviandoParaCliente', times);
-		};
-	})
+		} else if(Object.keys(timesAliasMap).includes(comentario)) {
+            incrementarPontosTorcedor(timesAliasMap[comentario], uniqueId, 200);
+            socket.emit('enviandoParaCliente', times);
+        };
+	});
 
 	// And here we receive gifts sent to the streamer
 	tiktokLiveConnection.on('gift', data => {
@@ -132,5 +154,4 @@ io.on('connection', function (socket) {
 	})
 })
 
-server.listen(3001, () => console.log('server rodando'))
-
+server.listen(3001, () => console.log('server rodando'));
