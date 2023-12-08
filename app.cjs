@@ -97,6 +97,7 @@ const incrementarPontosTorcedor = (nomeTime, uniqueId, quantidadePontos) => {
 	times[indiceTimeDoTorcedor].torcedores[indiceTorcedor].pontos += quantidadePontos;
 	ordenarTorcedores(indiceTimeDoTorcedor);
 	atualizarPontosTime(indiceTimeDoTorcedor);
+	emitir()
 };
 
 const cadastrarTorcedor = (nomeTime, uniqueId, fotoUrl) => {
@@ -104,6 +105,7 @@ const cadastrarTorcedor = (nomeTime, uniqueId, fotoUrl) => {
 	times[indiceTimeComentado].torcedores.push({
 		uniqueId, pontos: 0, imagemTorcedorUrl: fotoUrl, posicao: times[indiceTimeComentado].torcedores.length + 1,
 	});
+	emitir()
 };
 
 io.on('connection', function (socket) {
@@ -146,48 +148,29 @@ io.on('connection', function (socket) {
 
 		if (Object.keys(timesAliasMap).includes(comentario) && !torcedorEstaCadastrado()) {
 			cadastrarTorcedor(timesAliasMap[comentario], uniqueId, profilePictureUrl);
-			emitir()
+
 		} else if (Object.keys(timesAliasMap).includes(comentario)) {
 			incrementarPontosTorcedor(timesAliasMap[comentario], uniqueId, 200);
-			emitir()
+
 		};
 	});
 
 	// And here we receive gifts sent to the streamer
 	tiktokLiveConnection.on('gift', ({ uniqueId, giftId }) => {
 		let giftIdInt = parseInt(giftId)
-		if (giftIdInt === 5655) {
-			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100)
-			emitir()
-		}
-		if (giftIdInt === 5658) {
-			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 3000) 
-			emitir()
-		}
-		if (giftIdInt === 5886) {
-			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100000) 
-			emitir()
-		}
-
+		if (giftIdInt === 5655) { incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100) }
+		if (giftIdInt === 5658) { incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 3000) }
+		if (giftIdInt === 5886) { incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100000) }
 	})
 
 	tiktokLiveConnection.on('like', ({ uniqueId, likeCount }) => {
 		let likeCountInt = parseInt(likeCount)
-		if (likeCountInt >= 30) {
-			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100) 
-			emitir()
-		}
+		if (likeCountInt >= 30) { incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100) }
 	})
 
-	tiktokLiveConnection.on('follow', ({ uniqueId }) => {
-		incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 10000)
-		emitir()
-	})
+	tiktokLiveConnection.on('follow', ({ uniqueId }) => { incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 10000) })
 
-	tiktokLiveConnection.on('share', ({ uniqueId }) => {
-		incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 5000)
-		emitir()
-	})
+	tiktokLiveConnection.on('share', ({ uniqueId }) => { incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 5000) })
 })
 
 server.listen(3001, () => console.log('server rodando'));
