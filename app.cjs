@@ -117,6 +117,11 @@ io.on('connection', function (socket) {
 		.then(state => console.info(`Connected to roomId ${state.roomId}`))
 		.catch(err => console.error('Failed to connect', err));
 
+
+	const emitir = () => {
+		socket.emit('enviandoParaCliente', times);
+	}
+
 	tiktokLiveConnection.on('chat', ({ uniqueId, comment, profilePictureUrl }) => {
 		const timesAliasMap = {
 			'flamengo': 'Flamengo',
@@ -141,10 +146,10 @@ io.on('connection', function (socket) {
 
 		if (Object.keys(timesAliasMap).includes(comentario) && !torcedorEstaCadastrado()) {
 			cadastrarTorcedor(timesAliasMap[comentario], uniqueId, profilePictureUrl);
-			socket.emit('enviandoParaCliente', times);
+			emitir()
 		} else if (Object.keys(timesAliasMap).includes(comentario)) {
 			incrementarPontosTorcedor(timesAliasMap[comentario], uniqueId, 200);
-			socket.emit('enviandoParaCliente', times);
+			emitir()
 		};
 	});
 
@@ -153,15 +158,15 @@ io.on('connection', function (socket) {
 		let giftIdInt = parseInt(giftId)
 		if (giftIdInt === 5655) {
 			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100)
-			socket.emit('gift', times)
+			emitir()
 		}
 		if (giftIdInt === 5658) {
 			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 3000) 
-			socket.emit('gift', times )
+			emitir()
 		}
 		if (giftIdInt === 5886) {
 			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100000) 
-			socket.emit('gift', times )
+			emitir()
 		}
 
 	})
@@ -170,16 +175,18 @@ io.on('connection', function (socket) {
 		let likeCountInt = parseInt(likeCount)
 		if (likeCountInt >= 30) {
 			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100) 
-			socket.emit('like', times)
+			emitir()
 		}
 	})
 
 	tiktokLiveConnection.on('follow', ({ uniqueId }) => {
 		incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 10000)
+		emitir()
 	})
 
 	tiktokLiveConnection.on('share', ({ uniqueId }) => {
 		incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 5000)
+		emitir()
 	})
 })
 
