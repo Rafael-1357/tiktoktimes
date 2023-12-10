@@ -1,4 +1,5 @@
 import useTimes from './hooks/useTimes';
+import { useEffect } from 'react';
 
 import styled from "styled-components";
 
@@ -21,19 +22,24 @@ const RelativeDiv = styled.div`
 `;
 
 function App() {
-  const listaTimes = useTimes();
+  // const listaTimes = useTimes();
+
+  const tocarAudios = async (audios: string[]) => {
+    
+  };
 
   return (
     <>
       <main>
         <BarraTimes>
-          <RelativeDiv>
+          {/* <RelativeDiv>
             {listaTimes.map((time: TimeType, key: number) => {
               return <Time {...{...time, key}} />;
             })}
-          </RelativeDiv>
+          </RelativeDiv> */}
         </BarraTimes>
       </main>
+      <audio src='flamengo.weba' autoPlay={true}></audio>
     </>
   );
 }

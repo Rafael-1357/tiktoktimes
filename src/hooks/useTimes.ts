@@ -9,8 +9,9 @@ function useTimes() {
 
   const connectarSocket = async () =>{
     const socket = await io('http://localhost:3001');
-      socket.on('enviandoParaCliente', (data) => {
-        setListaTimes(data);
+      socket.on('enviandoParaCliente', ({ times, timesAscendentes }) => {
+        console.log(timesAscendentes);
+        setListaTimes(times);
     });
   };
 

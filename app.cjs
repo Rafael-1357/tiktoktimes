@@ -70,11 +70,14 @@ const times = [
 ];
 
 const ordenarTimes = () => {
+    const timesAscendentes = [];
     const subListaOrdenada = times.map(({ nome, totalPontos }) => ({ nome, totalPontos })).sort((timeA, timeB) => timeB.totalPontos - timeA.totalPontos);
     subListaOrdenada.forEach(({ nome }, index) => {
         const indiceTime = times.findIndex(({ nome: nomeTime }) => nomeTime === nome);
         times[indiceTime].posicao = index + 1;
     });
+    console.log(timesAscendentes);
+    return timesAscendentes;
 };
 
 const ordenarTorcedores = (indiceTime) => {
@@ -88,7 +91,7 @@ const ordenarTorcedores = (indiceTime) => {
 
 const atualizarPontosTime = (indiceTime) => {
     times[indiceTime].totalPontos = times[indiceTime].torcedores.reduce((totalPontos, { pontos }) => totalPontos + pontos, 0);
-    ordenarTimes();
+    return ordenarTimes();
 };
 
 const incrementarPontosTorcedor = (nomeTime, uniqueId, quantidadePontos) => {
@@ -96,7 +99,7 @@ const incrementarPontosTorcedor = (nomeTime, uniqueId, quantidadePontos) => {
     const indiceTorcedor = times[indiceTimeDoTorcedor].torcedores.findIndex(torcedor => torcedor.uniqueId === uniqueId);
     times[indiceTimeDoTorcedor].torcedores[indiceTorcedor].pontos += quantidadePontos;
     ordenarTorcedores(indiceTimeDoTorcedor);
-    atualizarPontosTime(indiceTimeDoTorcedor);
+    return atualizarPontosTime(indiceTimeDoTorcedor);
 };
 
 const cadastrarTorcedor = (nomeTime, uniqueId, fotoUrl) => {
@@ -110,7 +113,7 @@ io.on('connection', function (socket) {
 	console.log('Usuário conectado');
 	socket.on('disconnect', () => console.log('Usuário desconectou'));
 
-	let tiktokUsername = 'guilhermewilgner';
+	let tiktokUsername = 'sharshock';
 	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
 
 	tiktokLiveConnection.connect()
@@ -143,8 +146,8 @@ io.on('connection', function (socket) {
 			cadastrarTorcedor(timesAliasMap[comentario], uniqueId, profilePictureUrl);
 			socket.emit('enviandoParaCliente', times);
 		} else if(Object.keys(timesAliasMap).includes(comentario)) {
-            incrementarPontosTorcedor(timesAliasMap[comentario], uniqueId, 200);
-            socket.emit('enviandoParaCliente', times);
+            const timesAscendentes = incrementarPontosTorcedor(timesAliasMap[comentario], uniqueId, 200);
+            socket.emit('enviandoParaCliente', { times, timesAscendentes });
         };
 	});
 
