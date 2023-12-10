@@ -72,6 +72,8 @@ const times = [
 
 let timeAscendente = '';
 
+const pesquisarTimeTorcedor = (uniqueId) => times.find(({ torcedores }) => torcedores.some(torcedor => torcedor.uniqueId === uniqueId))?.nome;
+
 const emitir = () => {
 	socketInstance.emit('enviandoParaCliente', { times, timeAscendente });
 }
@@ -103,8 +105,12 @@ const incrementarPontosTorcedor = (nomeTime, uniqueId, quantidadePontos) => {
     const indiceTorcedor = times[indiceTimeDoTorcedor].torcedores.findIndex(torcedor => torcedor.uniqueId === uniqueId);
     times[indiceTimeDoTorcedor].torcedores[indiceTorcedor].pontos += quantidadePontos;
     ordenarTorcedores(indiceTimeDoTorcedor);
+	const timeCopiaAntiga = JSON.parse(JSON.stringify(times));
     atualizarPontosTime(indiceTimeDoTorcedor);
+	timeAscendente = times.find(({ posicao }, index) => posicao < timeCopiaAntiga[index].posicao)?.nome;
+	console.log(timeAscendente);
 	emitir();
+	timeAscendente = '';
 };
 
 const cadastrarTorcedor = (nomeTime, uniqueId, fotoUrl) => {
@@ -120,7 +126,7 @@ io.on('connection', function (socket) {
 	console.log('Usuário conectado');
 	socket.on('disconnect', () => console.log('Usuário desconectou'));
 
-	let tiktokUsername = 'sharshock';
+	let tiktokUsername = 'vendasadotpmerobux';
 	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
 
 	tiktokLiveConnection.connect()
@@ -151,6 +157,9 @@ io.on('connection', function (socket) {
 
 		if (Object.keys(timesAliasMap).includes(comentario) && !torcedorEstaCadastrado()) {
 			cadastrarTorcedor(timesAliasMap[comentario], uniqueId, profilePictureUrl);
+			emitir();
+		} else if (Object.keys(timesAliasMap).includes(comentario)) {
+			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 200);
 			emitir();
 		}
 	});

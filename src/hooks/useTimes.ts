@@ -13,7 +13,7 @@ function useTimes(): [TimeType[], string] {
       socket.on('enviandoParaCliente', ({ times, timeAscendente }) => {
         console.log(timeAscendente);
         setListaTimes(times);
-        setTimeAscendente(timeAscendente);
+        if (timeAscendente) setTimeAscendente(timeAscendente);
     });
   };
 
