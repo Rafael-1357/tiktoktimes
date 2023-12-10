@@ -2,6 +2,7 @@ const app = require('express')()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server, { cors: { origin: 'http://localhost:5173' } })
 const { WebcastPushConnection } = require('tiktok-live-connector');
+let socketInstance;
 
 const times = [
 	{
@@ -69,8 +70,10 @@ const times = [
 	},
 ];
 
+let timeAscendente = '';
+
 const emitir = () => {
-	socket.emit('enviandoParaCliente', times);
+	socketInstance.emit('enviandoParaCliente', { times, timeAscendente });
 }
 
 const ordenarTimes = () => {
@@ -113,6 +116,7 @@ const cadastrarTorcedor = (nomeTime, uniqueId, fotoUrl) => {
 };
 
 io.on('connection', function (socket) {
+	socketInstance = socket;
 	console.log('Usuário conectado');
 	socket.on('disconnect', () => console.log('Usuário desconectou'));
 
