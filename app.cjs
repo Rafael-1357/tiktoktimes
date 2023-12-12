@@ -105,12 +105,10 @@ const incrementarPontosTorcedor = (nomeTime, uniqueId, quantidadePontos) => {
     const indiceTorcedor = times[indiceTimeDoTorcedor].torcedores.findIndex(torcedor => torcedor.uniqueId === uniqueId);
     times[indiceTimeDoTorcedor].torcedores[indiceTorcedor].pontos += quantidadePontos;
     ordenarTorcedores(indiceTimeDoTorcedor);
-	const timeCopiaAntiga = JSON.parse(JSON.stringify(times));
+	const timesCopiaAntiga = JSON.parse(JSON.stringify(times));
     atualizarPontosTime(indiceTimeDoTorcedor);
-	timeAscendente = times.find(({ posicao }, index) => posicao < timeCopiaAntiga[index].posicao)?.nome;
-	console.log(timeAscendente);
+	timeAscendente = times.find(({ posicao }, index) => posicao < timesCopiaAntiga[index].posicao)?.nome;
 	emitir();
-	timeAscendente = '';
 };
 
 const cadastrarTorcedor = (nomeTime, uniqueId, fotoUrl) => {
@@ -126,7 +124,7 @@ io.on('connection', function (socket) {
 	console.log('Usuário conectado');
 	socket.on('disconnect', () => console.log('Usuário desconectou'));
 
-	let tiktokUsername = 'vendasadotpmerobux';
+	let tiktokUsername = 'luxcansada';
 	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
 
 	tiktokLiveConnection.connect()

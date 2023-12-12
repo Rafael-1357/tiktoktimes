@@ -11,7 +11,6 @@ function useTimes(): [TimeType[], string] {
   const conectarSocket = async () =>{
     const socket = await io('http://localhost:3001');
       socket.on('enviandoParaCliente', ({ times, timeAscendente }) => {
-        console.log(timeAscendente);
         setListaTimes(times);
         if (timeAscendente) setTimeAscendente(timeAscendente);
     });
