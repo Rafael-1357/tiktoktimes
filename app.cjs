@@ -124,8 +124,8 @@ io.on('connection', function (socket) {
 	console.log('Usuário conectado');
 	socket.on('disconnect', () => console.log('Usuário desconectou'));
 
-	let tiktokUsername = 'luxcansada';
-	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
+	let tiktokUsername = 'fadeoutafk';
+	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername, {processInitialData: false});
 
 	tiktokLiveConnection.connect()
 		.then(state => console.info(`Connected to roomId ${state.roomId}`))
