@@ -72,9 +72,7 @@ const times = [
 
 let timeAscendente = '';
 
-const likesUsuarios = [
-
-];
+const likesUsuarios = [];
 
 const pesquisarTimeTorcedor = (uniqueId) => times.find(({ torcedores }) => torcedores.some(torcedor => torcedor.uniqueId === uniqueId))?.nome;
 

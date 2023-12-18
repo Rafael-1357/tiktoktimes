@@ -12,6 +12,7 @@ export type TimeType = {
     torcedores: TorcedorType[];
 };
 
+
 const mockDadosTimes: TimeType[] = [
     {
         nome: 'Flamengo',
