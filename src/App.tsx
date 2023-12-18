@@ -9,14 +9,26 @@ import Time from "./components/Time";
 import { TimeType } from "../mock/mockDadosTimes";
 
 import aliasNomesAudios from './utils/aliasNomesAudios';
+import Fundo from './images/bg.jpg';
+
+const Main = styled.main`
+  width: 400px;
+  height: 700px;
+
+  position: relative;
+  transform: translateY(0%);
+  background: url(${Fundo});
+  background-size: cover;
+  background-position: 550px;
+`;
 
 const BarraTimes = styled.aside`
   width: 300px;
-  height: 596px;
+  height: 513px;
 
   position: absolute;
   right: 0px;
-  top: 120px;
+  top: 93.5px;
 `;
 
 const RelativeDiv = styled.div`
@@ -42,7 +54,7 @@ function App() {
 
   return (
     <>
-      <main>
+      <Main>
         <BarraTimes>
           <RelativeDiv>
             {listaTimes.map((time: TimeType, key: number) => {
@@ -50,7 +62,7 @@ function App() {
             })}
           </RelativeDiv>
         </BarraTimes>
-      </main>
+      </Main>
       <ReactHowler {...audioConfig} onLoad={() => editAudioConfig('playing', true)} onEnd={() => editAudioConfig('playing', false)} />
     </>
   );

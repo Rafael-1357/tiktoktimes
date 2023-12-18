@@ -72,6 +72,10 @@ const times = [
 
 let timeAscendente = '';
 
+const likesUsuarios = [
+
+];
+
 const pesquisarTimeTorcedor = (uniqueId) => times.find(({ torcedores }) => torcedores.some(torcedor => torcedor.uniqueId === uniqueId))?.nome;
 
 const emitir = () => {
@@ -116,6 +120,10 @@ const cadastrarTorcedor = (nomeTime, uniqueId, fotoUrl) => {
 	times[indiceTimeComentado].torcedores.push({
 		uniqueId, pontos: 0, imagemTorcedorUrl: fotoUrl, posicao: times[indiceTimeComentado].torcedores.length + 1,
 	});
+	likesUsuarios.push({
+		uniqueId,
+		pontosAtuais: 0,
+	});
 	emitir()
 };
 
@@ -124,7 +132,7 @@ io.on('connection', function (socket) {
 	console.log('Usuário conectado');
 	socket.on('disconnect', () => console.log('Usuário desconectou'));
 
-	let tiktokUsername = 'luxcansada';
+	let tiktokUsername = 'cozinhandocomakepa';
 	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
 
 	tiktokLiveConnection.connect()
@@ -145,19 +153,17 @@ io.on('connection', function (socket) {
 			'corinthians': 'Corinthians',
 		};
 
+		const comentario = comment.toLowerCase();
+
 		const torcedorEstaCadastrado = () => {
-			const timeComentado = times.find((time) => time.nome === timesAliasMap[comment]);
+			const timeComentado = times.find((time) => time.nome === timesAliasMap[comentario]);
 			for (const torcedor of timeComentado.torcedores) if (torcedor.uniqueId === uniqueId) return true;
 			return false;
 		};
 
-		const comentario = comment.toLowerCase();
 
 		if (Object.keys(timesAliasMap).includes(comentario) && !torcedorEstaCadastrado()) {
 			cadastrarTorcedor(timesAliasMap[comentario], uniqueId, profilePictureUrl);
-			emitir();
-		} else if (Object.keys(timesAliasMap).includes(comentario)) {
-			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 200);
 			emitir();
 		}
 	});
@@ -170,9 +176,15 @@ io.on('connection', function (socket) {
 		if (giftIdInt === 5886) { incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100000) }
 	})
 
-	tiktokLiveConnection.on('like', ({ uniqueId, likeCount }) => {
-		let likeCountInt = parseInt(likeCount)
-		if (likeCountInt >= 30) { incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100) }
+	tiktokLiveConnection.on('like', ({ uniqueId, likeCount, ...data }) => {
+		let likeCountInt = parseInt(likeCount);
+		const userIndex = likesUsuarios.findIndex(user => user.uniqueId === uniqueId);
+		if (userIndex >= 0) likesUsuarios[userIndex].pontosAtuais += likeCount;
+		if (likesUsuarios[userIndex]?.pontosAtuais >= 30) {
+			console.log('Chegou!', uniqueId);
+			incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 100)
+			likesUsuarios[userIndex].pontosAtuais = 0;
+		}
 	})
 
 	tiktokLiveConnection.on('follow', ({ uniqueId }) => { incrementarPontosTorcedor(pesquisarTimeTorcedor(uniqueId), uniqueId, 10000) })
