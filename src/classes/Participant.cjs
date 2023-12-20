@@ -1,14 +1,16 @@
 class Participant {
-    constructor(name, groupName, styles) {
-        this.name = name;
+    constructor(uniqueId, groupName, styles) {
+        this.uniqueId = uniqueId;
         this.groupName = groupName;
         this.styles = styles;
-        this.position = global.data.participants.length;
+        this.points = 0;
+
         global.data.participants.push(this);
+        this.position = global.data.participants.length;
     }
 
-    static findParticipant() {
-        
+    static findParticipant(uniqueId) {
+        return global.data.participants.find(participant => participant.uniqueId === uniqueId);
     }
 }
 

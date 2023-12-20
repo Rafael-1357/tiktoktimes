@@ -1,10 +1,14 @@
+const Participant = require('./Participant.cjs');
+
 class Group {
     constructor(name, aliases, styles) {
         this.name = name;
         this.styles = styles;
         this.points = 0;
         this.aliases = aliases;
+
         global.data.groups.push(this);
+        this.position = global.data.groups.length;
     }
 
     static findGroup(groupName) {
@@ -24,6 +28,9 @@ class Group {
 
     sortParticipants() {
         const participants = this.getParticipants();
+        const positions = participants.map(({ uniqueId, points }) => ({ uniqueId, points }));
+        positions.sort((participantA, participantB) => participantB.points - participantA.points);
+        positions.forEach((position, index) => Participant.findParticipant(position.uniqueId).position = index);
     }
 }
 
