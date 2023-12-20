@@ -4,6 +4,7 @@ const io = require('socket.io')(server, { cors: { origin: 'http://localhost:5173
 const { WebcastPushConnection } = require('tiktok-live-connector');
 
 require('./src/dataReference.cjs');
+require('./groupsConfig.cjs');
 
 const onChat = require('./src/liveConnection/onChat.cjs');
 const onFollow = require('./src/liveConnection/onFollow.cjs');
@@ -15,7 +16,7 @@ io.on('connection', function (socket) {
 	console.log('📶 Usuário Conectado');
 	socket.on('disconnect', () => console.log('🔌 Usuário Desconectou'));
 
-	let tiktokUsername = 'cozinhandocomakepa';
+	let tiktokUsername = process.argv[2];
 	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
 
 	tiktokLiveConnection
