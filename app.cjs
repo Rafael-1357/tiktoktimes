@@ -17,18 +17,18 @@ io.on('connection', function (socket) {
 	socket.on('disconnect', () => console.log('🔌 Usuário Desconectou'));
 
 	let tiktokUsername = process.argv[2];
-	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername, { processInitialData: false});
+	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername, { processInitialData: false });
 
 	tiktokLiveConnection
 		.connect()
 		.then(state => console.info(`Connected to roomId ${state.roomId}`))
 		.catch(err => console.error('Failed to connect', err));
 
-	tiktokLiveConnection.on('chat', onChat);
-	tiktokLiveConnection.on('gift', onGift);
-	tiktokLiveConnection.on('like', onLike);
-	tiktokLiveConnection.on('follow', onFollow);
-	tiktokLiveConnection.on('share', onShare);
+	tiktokLiveConnection.on('chat', onChat(msg));
+	tiktokLiveConnection.on('gift', onGift(msg));
+	tiktokLiveConnection.on('like', onLike(msg));
+	tiktokLiveConnection.on('follow', onFollow(msg));
+	tiktokLiveConnection.on('share', onShare(msg));
 });
 
 server.listen(3001, () => console.log('📡 Server Rodando'));
