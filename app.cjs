@@ -17,7 +17,7 @@ io.on('connection', function (socket) {
 	socket.on('disconnect', () => console.log('🔌 Usuário Desconectou'));
 
 	let tiktokUsername = process.argv[2];
-	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
+	let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername, { processInitialData: false});
 
 	tiktokLiveConnection
 		.connect()
