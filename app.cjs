@@ -24,7 +24,7 @@ io.on('connection', function (socket) {
 		.then(state => console.info(`Connected to roomId ${state.roomId}`))
 		.catch(err => console.error('Failed to connect', err));
 
-	tiktokLiveConnection.on('chat', msg => io.emit('chat', msg));
+	tiktokLiveConnection.on('chat', onChat);
 	tiktokLiveConnection.on('gift', onGift);
 	tiktokLiveConnection.on('like', onLike);
 	tiktokLiveConnection.on('follow', onFollow);
@@ -33,4 +33,3 @@ io.on('connection', function (socket) {
 
 server.listen(3001, () => console.log('📡 Server Rodando'));
 
-module.exports = io;
