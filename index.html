@@ -4,8 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TikTokTimes</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
   </head>
   <body>
+
+    <main>
+      <header></header>
+      <div id="content">
+        <div id="interactions"></div>
+        <div id="teams"></div>
+      </div>
+      <div id="winModal">
+        <div id="time-container">
+          <img id="coroa" src="./coroa.webp" alt="">
+          <img id="escudo" src="./flamengo.jpg">
+          <span>131K</span>
+        </div> 
+        <div id="torcedores">
+          <div id="prata" class="torcedor">
+              <img src="./flamengo.jpg" alt="">
+              <span>21K</span>
+          </div>
+          <div class="torcedor">
+              <img src="./flamengo.jpg" alt="">
+              <span>21K</span>
+          </div>
+          <div id="bronze" class="torcedor">
+              <img src="./flamengo.jpg" alt="">
+              <span>21K</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
