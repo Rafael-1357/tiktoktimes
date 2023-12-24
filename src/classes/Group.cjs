@@ -1,4 +1,7 @@
 const Participant = require('./Participant.cjs');
+const sortListForPoints = require('../utils/sortListForPoints.cjs');
+const searchParticipantsInAllGroups = require('../utils/searchParticipantInAllGroups.cjs');
+const removeParticipant = require('../utils/removeParticipant.cjs');
 
 class Group {
     constructor(name, aliases, styles) {
@@ -6,31 +9,41 @@ class Group {
         this.styles = styles;
         this.points = 0;
         this.aliases = aliases;
+        this.participants = [];
 
-        global.data.groups.push(this);
-        this.position = global.data.groups.length;
+        global.data.push(this);
     }
 
-    static findGroup(groupName) {
-        return global.data.groups.find(group => group.aliases.includes(groupName) || this.name === groupName);
+    findParticipant(uniqueId) {
+        return this.participants.find(participant => participant.uniqueId === uniqueId);
     }
 
-    getParticipants() {
-        return global
-            .data
-            .participants
-            .filter(participant => participant.groupName === this.name);
+    addParticipant(uniqueId, imageUrl) {
+        const participantStyles = {
+            participantImage: imageUrl,
+        };
+
+        const { groupName, participantIndex } = searchParticipantsInAllGroups(uniqueId);
+        if (groupName) {
+            if (groupName !== this.name) {
+                removeParticipant({ groupName, participantIndex });
+                const newParticipant = new Participant(uniqueId, this.name, participantStyles);
+                this.participants.push(newParticipant);
+                return newParticipant;
+            }
+        } else {
+            const newParticipant = new Participant(uniqueId, this.name, participantStyles);
+            this.participants.push(newParticipant);
+            return newParticipant;
+        }
     }
 
-    recalculatePoints() {
-        this.points = this.getParticipants().reduce((acc, { points }) => acc + points);
-    }
-
-    sortParticipants() {
-        const participants = this.getParticipants();
-        const positions = participants.map(({ uniqueId, points }) => ({ uniqueId, points }));
-        positions.sort((participantA, participantB) => participantB.points - participantA.points);
-        positions.forEach((position, index) => Participant.findParticipant(position.uniqueId).position = index);
+    addPoints(uniqueId, points) {
+        const participant = this.findParticipant(uniqueId);
+        participant.points += points;
+        this.points += points;
+        sortListForPoints(this.participants);
+        sortListForPoints(global.data);
     }
 }
 

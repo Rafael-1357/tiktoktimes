@@ -3,16 +3,17 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server, { cors: { origin: 'http://localhost:5173' } });
 const { WebcastPushConnection } = require('tiktok-live-connector');
 
-require('./src/dataReference.cjs');
-require('./groupsConfig.cjs');
-
 const onChat = require('./src/liveConnection/onChat.cjs');
 const onFollow = require('./src/liveConnection/onFollow.cjs');
 const onGift = require('./src/liveConnection/onGift.cjs');
 const onLike = require('./src/liveConnection/onLike.cjs');
 const onShare = require('./src/liveConnection/onShare.cjs');
 
+global.data = [];
+require('./groupsConfig.cjs');
+
 io.on('connection', function (socket) {
+	global.socket = socket;
 	console.log('📶 Usuário Conectado');
 	socket.on('disconnect', () => console.log('🔌 Usuário Desconectou'));
 
@@ -23,6 +24,8 @@ io.on('connection', function (socket) {
 		.connect()
 		.then(state => console.info(`Connected to roomId ${state.roomId}`))
 		.catch(err => console.error('Failed to connect', err));
+
+	socket.emit('initialData', global.data);
 
 	tiktokLiveConnection.on('chat', onChat);
 	tiktokLiveConnection.on('gift', onGift);
