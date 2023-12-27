@@ -8,6 +8,7 @@ const onFollow = require('./src/liveConnection/onFollow.cjs');
 const onGift = require('./src/liveConnection/onGift.cjs');
 const onLike = require('./src/liveConnection/onLike.cjs');
 const onShare = require('./src/liveConnection/onShare.cjs');
+const onJoin = require('./src/liveConnection/onJoin.cjs');
 
 require('./groupsConfig.cjs');
 
@@ -33,6 +34,7 @@ io.on('connection', function (socket) {
 	tiktokLiveConnection.on('like', onLike);
 	tiktokLiveConnection.on('follow', onFollow);
 	tiktokLiveConnection.on('share', onShare);
+	tiktokLiveConnection.on('join', onJoin);
 });
 
 server.listen(3001, () => console.log('📡 Server Rodando'));
