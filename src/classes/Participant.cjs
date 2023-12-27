@@ -6,6 +6,15 @@ class Participant {
         this.points = 0;
         this.likeCounter = 0;
     }
+
+    countLikes(likeCount, likeLimit) {
+        this.likeCounter += likeCount;
+
+        if (this.likeCounter >= likeLimit) {
+            this.likeCounter = 0;
+            return true;
+        } else return false;
+    }
 }
 
 module.exports = Participant;
