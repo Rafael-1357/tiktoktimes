@@ -1,4 +1,4 @@
-function onLike() {
+function onLike({ uniqueId, }) {
 
 }
 

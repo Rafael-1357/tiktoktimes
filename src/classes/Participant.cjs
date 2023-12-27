@@ -4,6 +4,7 @@ class Participant {
         this.groupName = groupName;
         this.styles = styles;
         this.points = 0;
+        this.likeCounter = 0;
     }
 }
 

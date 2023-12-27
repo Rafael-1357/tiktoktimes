@@ -4,9 +4,7 @@ function onChat({ comment, uniqueId, profilePictureUrl }) {
     const group = findGroup(comment.toLowerCase());
     if (group) {
         const newParticipant = group.addParticipant(uniqueId, profilePictureUrl);
-        global.socket.emit('add', {
-            userInfos: newParticipant,
-        });
+        global.socket.emit('resetGroups', global.data);
     }
 }
 
