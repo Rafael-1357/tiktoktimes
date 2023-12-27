@@ -5,6 +5,10 @@ socket.on('initialData', (data) => {
     console.log(data);
 });
 
-socket.on('add', (newParticipant) => {
-    console.log(newParticipant);
+socket.on('resetGroups', (data) => {
+    console.log(data);
+});
+
+socket.on('updateGroups', (data) => {
+    console.log(data);
 });

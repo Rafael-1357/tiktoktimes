@@ -3,7 +3,10 @@ const emitGlobalData = require('../utils/emitGlobalData.cjs');
 
 function onLike({ uniqueId, likeCount }) {
     const { group, participantIndex } = searchParticipantInAllGroups(uniqueId);
-    const { uniqueId, countLikes } = group[participantIndex];
+    if (!group) return;
+
+    console.log(likeCount);
+    const { countLikes } = group[participantIndex];
     const toScore = countLikes(likeCount, 30);
 
     if (toScore) {
