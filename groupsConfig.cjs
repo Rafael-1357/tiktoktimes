@@ -5,7 +5,7 @@ const groupsConfig = [
         groupName: 'Flamengo',
         aliases: ['flamengo'],
         styles: {
-            groupImage: 'flamengo.jpg',
+            groupImage: 'images/flamengo.jpg',
             backgroundColor: 'red',
             fontColor: 'white',
         },
@@ -14,7 +14,7 @@ const groupsConfig = [
         groupName: 'Fluminense',
         aliases: ['fluminense'],
         styles: {
-            groupImage: 'fluminense.jpg',
+            groupImage: 'images/fluminense.jpg',
             backgroundColor: 'green',
             fontColor: 'white',
         },
@@ -23,7 +23,7 @@ const groupsConfig = [
         groupName: 'Palmeiras',
         aliases: ['palmeiras'],
         styles: {
-            groupImage: 'palmeiras.jpg',
+            groupImage: 'images/palmeiras.jpg',
             backgroundColor: 'green',
             fontColor: 'white',
         },
@@ -32,7 +32,7 @@ const groupsConfig = [
         groupName: 'São Paulo',
         aliases: ['são paulo', 'sao paulo', 'sãopaulo', 'saopaulo'],
         styles: {
-            groupImage: 'saopaulo.jpg',
+            groupImage: 'images/saopaulo.jpg',
             backgroundColor: 'red',
             fontColor: 'white',
         },
@@ -41,7 +41,7 @@ const groupsConfig = [
         groupName: 'Vasco',
         aliases: ['vasco'],
         styles: {
-            groupImage: 'vasco.jpg',
+            groupImage: 'images/vasco.jpg',
             backgroundColor: 'black',
             fontColor: 'white',
         },
@@ -50,7 +50,7 @@ const groupsConfig = [
         groupName: 'Internacional',
         aliases: ['internacional'],
         styles: {
-            groupImage: 'internacional.jpg',
+            groupImage: 'images/internacional.jpg',
             backgroundColor: 'red',
             fontColor: 'white',
         },
@@ -59,7 +59,7 @@ const groupsConfig = [
         groupName: 'Botafogo',
         aliases: ['botafogo', 'bota fogo'],
         styles: {
-            groupImage: 'botafogo.jpg',
+            groupImage: 'images/botafogo.jpg',
             backgroundColor: 'black',
             fontColor: 'white',
         },
@@ -68,7 +68,7 @@ const groupsConfig = [
         groupName: 'Corinthians',
         aliases: ['corinthians'],
         styles: {
-            groupImage: 'corinthians.jpg',
+            groupImage: 'images/corinthians.jpg',
             backgroundColor: '#1d1d1d',
             fontColor: 'white',
         },
@@ -77,7 +77,7 @@ const groupsConfig = [
         groupName: 'Santos',
         aliases: ['santos'],
         styles: {
-            groupImage: 'santos.jpg',
+            groupImage: 'images/santos.jpg',
             backgroundColor: '#1d1d1d',
             fontColor: 'white',
         },
