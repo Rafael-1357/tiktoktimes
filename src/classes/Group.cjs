@@ -23,10 +23,10 @@ class Group {
             participantImage: imageUrl,
         };
 
-        const { groupName, participantIndex } = searchParticipantsInAllGroups(uniqueId);
-        if (groupName) {
-            if (groupName !== this.name) {
-                removeParticipant({ groupName, participantIndex });
+        const { group, participantIndex } = searchParticipantsInAllGroups(uniqueId);
+        if (group) {
+            if (group.name !== this.name) {
+                removeParticipant({ groupName: group.name, participantIndex });
                 const newParticipant = new Participant(uniqueId, this.name, participantStyles);
                 this.participants.push(newParticipant);
                 return newParticipant;
