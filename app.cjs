@@ -9,7 +9,6 @@ const onGift = require('./src/liveConnection/onGift.cjs');
 const onLike = require('./src/liveConnection/onLike.cjs');
 const onShare = require('./src/liveConnection/onShare.cjs');
 
-global.data = [];
 require('./groupsConfig.cjs');
 
 io.on('connection', function (socket) {

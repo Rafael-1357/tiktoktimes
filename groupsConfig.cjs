@@ -1,5 +1,7 @@
 const Group = require('./src/classes/Group.cjs');
 
+global.data = [];
+
 const groupsConfig = [
     {
         groupName: 'Flamengo',
