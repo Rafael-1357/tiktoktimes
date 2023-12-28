@@ -43,7 +43,7 @@ const groupsConfig = [
         groupName: 'Vasco',
         aliases: ['vasco'],
         styles: {
-            groupImage: 'images/vasco.jpg',
+            groupImage: 'images/vasco.png',
             backgroundColor: 'black',
             fontColor: 'white',
         },
@@ -52,7 +52,7 @@ const groupsConfig = [
         groupName: 'Internacional',
         aliases: ['internacional'],
         styles: {
-            groupImage: 'images/internacional.jpg',
+            groupImage: 'images/internacional.png',
             backgroundColor: 'red',
             fontColor: 'white',
         },
@@ -61,7 +61,7 @@ const groupsConfig = [
         groupName: 'Botafogo',
         aliases: ['botafogo', 'bota fogo'],
         styles: {
-            groupImage: 'images/botafogo.jpg',
+            groupImage: 'images/botafogo.png',
             backgroundColor: 'black',
             fontColor: 'white',
         },
@@ -70,7 +70,7 @@ const groupsConfig = [
         groupName: 'Corinthians',
         aliases: ['corinthians'],
         styles: {
-            groupImage: 'images/corinthians.jpg',
+            groupImage: 'images/corinthians.png',
             backgroundColor: '#1d1d1d',
             fontColor: 'white',
         },
@@ -79,7 +79,7 @@ const groupsConfig = [
         groupName: 'Santos',
         aliases: ['santos'],
         styles: {
-            groupImage: 'images/santos.jpg',
+            groupImage: 'images/santos.png',
             backgroundColor: '#1d1d1d',
             fontColor: 'white',
         },

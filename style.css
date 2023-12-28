@@ -117,6 +117,8 @@ header{
     margin-bottom: 8px;
     border-radius: 50px 0 0 50px;
     display: flex;
+
+    transition: all 200ms;
 }
 
 .team-interaction{
@@ -140,6 +142,8 @@ header{
 
 .fan-absolute{
     position: absolute;
+
+    transition: all 350ms;
 }
 
 .fan{
