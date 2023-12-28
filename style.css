@@ -49,30 +49,29 @@ header{
     overflow-y: hidden;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-.user-notification{
     position: relative;
 }
 
-.user-notification, .user-notification img{
-    width: 80px;
-    height: 80px;
-    border-radius: 100%;
-} 
+.action-popup {
+    position: absolute;
 
-.user-notification span{
+    animation: flyPopup 5s ease-in-out, shakePopup 2s 2.5 ease-in-out, disappearPopup 4.5s;
+}
+
+.action-popup, .action-popup img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+
+.action-popup span {
     width: 25px;
     height: 25px;
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
     bottom: -9px;
-    color: #fff;
+    color: #272727;
     border-radius: 100%;
     background-color: #fff;
     display: flex;
@@ -80,26 +79,42 @@ header{
     align-items: center;
 }
 
-.gift img{
-    border: 4px solid gold;
+.action-popup img {
+    border-width: 4px;
+    border-style: solid;
 }
 
-.follow img{
-    border: 4px solid lawngreen;
+.action-popup[data-action-type="gift"] img { border-color: gold }
+.action-popup[data-action-type="follow"] img { border-color: lawngreen }
+.action-popup[data-action-type="share"] img { border-color: lightskyblue }
+.action-popup[data-action-type="like"] img { border-color: rgb(248, 20, 20) }
+.action-popup[data-action-type="join"] img { border-color: #d1d1d1 }
+
+@keyframes flyPopup {
+    0% {
+        bottom: 20px;
+    } 100% {
+        bottom: 580px;
+    }
 }
 
-.share img{
-    border: 4px solid lightskyblue;
+@keyframes shakePopup {
+    0% {
+        left: 5px;
+    } 50% {
+        left: 60px;
+    } 100% {
+        left: 5px;
+    }
 }
 
-.like img{
-    border: 4px solid rgb(248, 20, 20)
+@keyframes disappearPopup {
+    80% {
+        opacity: 100%;
+    } 100% {
+        opacity: 0;
+    }
 }
-
-.join img{
-    border: 4px solid #d1d1d1;
-}
-
 
 /* === TEAMS === */
 
@@ -169,8 +184,6 @@ header{
     border-radius: 50px;
     background-color: #1d1d1d;
 }
-
-
 
 /* === WIN MODAL === */
 

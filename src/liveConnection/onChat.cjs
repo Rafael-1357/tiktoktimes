@@ -5,6 +5,7 @@ function onChat({ comment, uniqueId, profilePictureUrl }) {
     if (group) {
         const newParticipant = group.addParticipant(uniqueId, profilePictureUrl);
         global.socket.emit('resetGroups', global.data);
+        global.socket.emit('newAction', { participantInfos: newParticipant, actionType: 'follow' });
     }
 }
 
