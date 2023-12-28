@@ -5,7 +5,6 @@ function onLike({ uniqueId, likeCount }) {
     const { group, participantIndex } = searchParticipantInAllGroups(uniqueId);
     if (!group) return;
 
-    console.log(likeCount);
     const { countLikes } = group[participantIndex];
     const toScore = countLikes(likeCount, 30);
 
