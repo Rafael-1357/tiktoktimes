@@ -7,6 +7,8 @@ import ActionPopup from "./components/ActionPopup";
 import GroupType from "./types/GroupType";
 import ActionType from "./types/ActionType";
 
+import formatNames from "./utils/formatNames";
+
 const socket = io("http://localhost:3001");
 const teamsContainer = $('#teams');
 
@@ -24,8 +26,16 @@ socket.on('resetGroups', (data: GroupType[]) => {
     });
 });
 
-socket.on('updateGroups', (data) => {
-    console.log(data);
+socket.on('updateGroups', (data: GroupType[]) => {
+    data.forEach(({ name, participants}, groupIndex) => {
+        $(`#${formatNames(true, name)}`).css('top', `${groupIndex * 65}px`);
+
+        participants.forEach(({ uniqueId, points }, participantIndex) => {
+            const participantEl = $(`#${formatNames(false, uniqueId)}`);
+            participantEl.css('left', `${participantIndex * 40}px`);
+            participantEl.find('.fan-points').text(points);
+        });
+    });
 });
 
 socket.on('newAction', (action: ActionType) => ActionPopup(action));

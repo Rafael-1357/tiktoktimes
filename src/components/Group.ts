@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import GroupType from '../types/GroupType';
 import Participant from './Participant';
+import formatNames from '../utils/formatNames';
 
 function Group(groupInfos: GroupType, groupIndex: number) {
     const GroupStyles = {
@@ -8,7 +9,7 @@ function Group(groupInfos: GroupType, groupIndex: number) {
     };
 
     const groupContainer = $(`
-        <div class="team">
+        <div class="team" id="${formatNames(true, groupInfos.name)}">
             <img src='${groupInfos.styles.groupImage}' class="team-picture">
             <div class="team-interaction">
                 <span class="team-fans-count"> ${groupInfos.name} • ${groupInfos.participants.length} Torcedores</span>
