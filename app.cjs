@@ -23,7 +23,7 @@ io.on('connection', function (socket) {
 	});
 
 	tiktokLiveConnection
-		.connect()
+		.connect() 
 		.then(state => console.info(`Connected to roomId ${state.roomId}`))
 		.catch(err => console.error('Failed to connect', err));
 
