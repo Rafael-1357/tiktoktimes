@@ -5,6 +5,7 @@ import Participant from './Participant';
 function Group(groupInfos: GroupType, groupIndex: number) {
     const GroupStyles = {
         top: `${groupIndex * 65}px`,
+        background: `${groupInfos.styles.backgroundColor}`
     };
 
     const groupContainer = $(`
