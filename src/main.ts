@@ -38,4 +38,28 @@ socket.on('updateGroups', (data: GroupType[]) => {
     });
 });
 
+
+function timer() {
+    let min = 4;
+    let seg = 60;
+
+    setInterval(() => {
+        if(min === 0 && seg === 0) window.location.reload( );       
+        if (seg !== 0) {
+            seg--
+            if(seg === 0 && min > 0){
+                setTimer(min, seg)
+                min--
+                seg = 60
+                return
+            }
+            setTimer(min, seg)}}, 1000)
+}
+
+function setTimer(min, seg) {
+    $('#timer').text(`${'0'+min}:${seg < 10 ? '0'+seg : seg}`)
+}
+
+timer()
+
 socket.on('newAction', (action: ActionType) => ActionPopup(action));
