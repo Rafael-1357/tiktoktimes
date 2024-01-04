@@ -29,7 +29,7 @@ socket.on('resetGroups', (data: GroupType[]) => {
 socket.on('updateGroups', (data: GroupType[]) => {
     data.forEach(({ name, participants}, groupIndex) => {
         $(`#${formatNames(true, name)}`).css('top', `${groupIndex * 65}px`);
-
+        
         participants.forEach(({ uniqueId, points }, participantIndex) => {
             const participantEl = $(`#${formatNames(false, uniqueId)}`);
             participantEl.css('left', `${participantIndex * 40}px`);
@@ -43,8 +43,11 @@ function timer() {
     let min = 4;
     let seg = 60;
 
-    setInterval(() => {
-        if(min === 0 && seg === 0) window.location.reload( );       
+    const timerInterval = setInterval(() => {
+        if(min === 0 && seg === 0){
+            socket.emit('onTimer')
+            clearInterval(timerInterval)
+        };       
         if (seg !== 0) {
             seg--
             if(seg === 0 && min > 0){
@@ -59,6 +62,29 @@ function timer() {
 function setTimer(min, seg) {
     $('#timer').text(`${'0'+min}:${seg < 10 ? '0'+seg : seg}`)
 }
+
+socket.on('onWinModel', (data: GroupType[]) => {
+    const maxPoint = data.reduce(function(prev, current) { 
+        return prev.points > current.points ? prev : current; 
+    });
+    $('#winModal').css('display', 'flex');
+    $('#escudo').attr('src', `../public/${maxPoint.styles.groupImage}`);
+    $('#time-pontos').text(`${maxPoint.points}`);
+    $('#ouro-img').attr('src', `${maxPoint.participants[0] == undefined ? '../public/images/avatar.jpg' : maxPoint.participants[0].styles.participantImage}`);
+    $('#prata-img').attr('src', `${maxPoint.participants[1] == undefined ? '../public/images/avatar.jpg' : maxPoint.participants[1].styles.participantImage}`);
+    $('#bronze-img').attr('src', `${maxPoint.participants[2] == undefined ? '../public/images/avatar.jpg' : maxPoint.participants[2].styles.participantImage}`);
+    $('#ouro-pontos').text(`${maxPoint.participants[0] == undefined ? '0' : maxPoint.participants[0].points}`)
+    $('#prata-pontos').text(`${maxPoint.participants[1] == undefined ? '0' : maxPoint.participants[1].points}`)
+    $('#bronze-pontos').text(`${maxPoint.participants[2] == undefined ? '0' : maxPoint.participants[2].points}`)
+
+    setTimeout(() => {
+        $('#winModal').css('display', 'none');
+        
+        timer()
+    }, 5000)
+
+})
+
 
 timer()
 

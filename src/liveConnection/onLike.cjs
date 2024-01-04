@@ -2,7 +2,6 @@ const searchParticipantInAllGroups = require('../utils/searchParticipantInAllGro
 const emitGlobalData = require('../utils/emitGlobalData.cjs');
 
 function onLike({ uniqueId, likeCount }) {
-    console.log(`${uniqueId}: ${likeCount}}`)
     const { group, participantIndex } = searchParticipantInAllGroups(uniqueId);
     if (!group) return;
 
